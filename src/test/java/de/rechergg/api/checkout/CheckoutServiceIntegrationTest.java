@@ -50,9 +50,7 @@ public class CheckoutServiceIntegrationTest {
                 .checkoutService()
                 .createCheckoutSession(request);
 
-        var exception = assertThrows(Exception.class, () -> {
-            futureResponse.get(10, TimeUnit.SECONDS);
-        });
+        var exception = assertThrows(Exception.class, () -> futureResponse.get(10, TimeUnit.SECONDS));
 
         assertInstanceOf(IOException.class, exception.getCause());
         log.warn("Expected failure for invalid product ID: {}", exception.getMessage());

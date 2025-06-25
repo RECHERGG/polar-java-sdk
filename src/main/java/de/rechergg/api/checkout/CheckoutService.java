@@ -35,6 +35,10 @@ public class CheckoutService extends AbstractApiService {
                             return CompletableFuture.failedFuture(new IOException("HTTP Fehler: " + response.code() + " - " + response.body().string()));
                         }
 
+                        if (response.body() == null) {
+                            return CompletableFuture.failedFuture(new IOException("Response body is null"));
+                        }
+
                         var body = response.body().string();
                         log.debug(body);
 
