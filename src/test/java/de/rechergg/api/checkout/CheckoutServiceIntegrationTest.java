@@ -4,6 +4,7 @@ package de.rechergg.api.checkout;
 import de.rechergg.Polar;
 import de.rechergg.PolarClient;
 import de.rechergg.models.request.checkout.CheckoutCreateRequest;
+import de.rechergg.models.request.checkout.CheckoutGetRequest;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 
@@ -54,5 +55,35 @@ public class CheckoutServiceIntegrationTest {
 
         assertInstanceOf(IOException.class, exception.getCause());
         log.warn("Expected failure for invalid product ID: {}", exception.getMessage());
+    }
+
+    @Test
+    void testGetCheckoutSession_success() throws Exception {
+        // Erstelle eine neue Checkout-Session
+        var createRequest = CheckoutCreateRequest.builder()
+                .productId("dc00d47e-386b-4a55-945d-e6f1b25c9d2d")
+                .build();
+
+        var created = client.coreApi()
+                .checkoutService()
+                .createCheckoutSession(createRequest)
+                .get(10, TimeUnit.SECONDS);
+
+        assertNotNull(created.id(), "Created checkout ID must not be null");
+
+        var request = CheckoutGetRequest.builder()
+                .checkoutId(created.id())
+                .build();
+
+        var retrieved = client.coreApi()
+                .checkoutService()
+                .getCheckoutSession(request)
+                .get(10, TimeUnit.SECONDS);
+
+        assertNotNull(retrieved, "Retrieved checkout must not be null");
+        assertEquals(created.id(), retrieved.id(), "IDs must match");
+        assertEquals(created.status(), retrieved.status(), "Status must match");
+
+        log.info("Retrieved checkout: ID={}, Status={}", retrieved.id(), retrieved.status());
     }
 }
