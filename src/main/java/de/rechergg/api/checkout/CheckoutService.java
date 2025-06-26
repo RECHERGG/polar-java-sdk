@@ -3,11 +3,12 @@ package de.rechergg.api.checkout;
 import de.rechergg.api.AbstractApiService;
 import de.rechergg.api.OkHttpRequestExecutor;
 import de.rechergg.models.request.checkout.CheckoutCreateRequest;
+import de.rechergg.models.request.checkout.CheckoutGetRequest;
 import de.rechergg.models.response.checkout.CheckoutCreateResponse;
+import de.rechergg.models.response.checkout.CheckoutGetResponse;
 import de.rechergg.utils.JsonUtils;
 import lombok.extern.log4j.Log4j2;
 
-import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
 @Log4j2
@@ -25,29 +26,19 @@ public class CheckoutService extends AbstractApiService {
      */
     public CompletableFuture<CheckoutCreateResponse> createCheckoutSession(CheckoutCreateRequest request) {
         return post("/v1/checkouts", request.toJson())
-                .thenCompose(response -> {
-                    try {
-                        if (!response.isSuccessful()) {
-                            if (response.body() == null) {
-                                return CompletableFuture.failedFuture(new IOException("HTTP Fehler: " + response.code() + " - " + response.message()));
-                            }
+                .thenCompose(this::handleResponse)
+                .thenApply(body -> JsonUtils.fromJson(body, CheckoutCreateResponse.class));
+    }
 
-                            return CompletableFuture.failedFuture(new IOException("HTTP Fehler: " + response.code() + " - " + response.body().string()));
-                        }
-
-                        if (response.body() == null) {
-                            return CompletableFuture.failedFuture(new IOException("Response body is null"));
-                        }
-
-                        var body = response.body().string();
-                        log.debug(body);
-
-                        var parsed = JsonUtils.fromJson(body, CheckoutCreateResponse.class);
-                        return CompletableFuture.completedFuture(parsed);
-                    } catch (IOException e) {
-                        return CompletableFuture.failedFuture(e);
-                    }
-                });
+    /**
+     * Retrieves an existing checkout session by its ID.
+     * Auth Token scopes: "checkout:read" and "checkouts:write"
+     * @param request The request containing the checkout ID.
+     */
+    public CompletableFuture<CheckoutGetResponse> getCheckoutSession(CheckoutGetRequest request) {
+        return get("/v1/checkouts/" + request.checkoutId())
+                .thenCompose(this::handleResponse)
+                .thenApply(body -> JsonUtils.fromJson(body, CheckoutGetResponse.class));
     }
 
 
