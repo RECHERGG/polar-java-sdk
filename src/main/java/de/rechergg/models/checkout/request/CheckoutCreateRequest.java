@@ -1,4 +1,4 @@
-package de.rechergg.models.request.checkout;
+package de.rechergg.models.checkout.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

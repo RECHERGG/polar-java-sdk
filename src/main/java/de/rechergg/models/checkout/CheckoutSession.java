@@ -1,7 +1,8 @@
-package de.rechergg.models.response.checkout;
+package de.rechergg.models.checkout;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import de.rechergg.models.shared.*;
 import lombok.Builder;
 import lombok.Value;
 import lombok.experimental.Accessors;
@@ -15,7 +16,7 @@ import java.util.Map;
 @Jacksonized
 @Accessors(fluent = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CheckoutGetResponse {
+public class CheckoutSession {
 
     @JsonProperty("created_at")
     String createdAt;
@@ -23,7 +24,6 @@ public class CheckoutGetResponse {
     @JsonProperty("modified_at")
     String modifiedAt;
 
-    @JsonProperty("id")
     String id;
 
     @JsonProperty("custom_field_data")
@@ -32,13 +32,11 @@ public class CheckoutGetResponse {
     @JsonProperty("payment_processor")
     String paymentProcessor;
 
-    @JsonProperty("status")
     String status;
 
     @JsonProperty("client_secret")
     String clientSecret;
 
-    @JsonProperty("url")
     String url;
 
     @JsonProperty("expires_at")
@@ -50,7 +48,6 @@ public class CheckoutGetResponse {
     @JsonProperty("embed_origin")
     String embedOrigin;
 
-    @JsonProperty("amount")
     Integer amount;
 
     @JsonProperty("discount_amount")
@@ -65,7 +62,6 @@ public class CheckoutGetResponse {
     @JsonProperty("total_amount")
     Integer totalAmount;
 
-    @JsonProperty("currency")
     String currency;
 
     @JsonProperty("product_id")
@@ -117,7 +113,7 @@ public class CheckoutGetResponse {
     String customerBillingName;
 
     @JsonProperty("customer_billing_address")
-    CheckoutCreateResponse.CustomerBillingAddress customerBillingAddress;
+    CustomerBillingAddress customerBillingAddress;
 
     @JsonProperty("customer_tax_id")
     String customerTaxId;
@@ -131,7 +127,6 @@ public class CheckoutGetResponse {
     @JsonProperty("customer_billing_address_fields")
     Map<String, Boolean> customerBillingAddressFields;
 
-    @JsonProperty("metadata")
     Map<String, Object> metadata;
 
     @JsonProperty("external_customer_id")
@@ -140,23 +135,20 @@ public class CheckoutGetResponse {
     @JsonProperty("customer_external_id")
     String customerExternalId;
 
-    @JsonProperty("products")
-    List<CheckoutCreateResponse.Product> products;
+    List<Product> products;
 
-    @JsonProperty("product")
-    CheckoutCreateResponse.Product product;
+    Product product;
 
     @JsonProperty("product_price")
-    CheckoutCreateResponse.ProductPrice productPrice;
+    ProductPrice productPrice;
 
-    @JsonProperty("discount")
-    CheckoutCreateResponse.Discount discount;
+    Discount discount;
 
     @JsonProperty("subscription_id")
     String subscriptionId;
 
     @JsonProperty("attached_custom_fields")
-    List<CheckoutCreateResponse.AttachedCustomField> attachedCustomFields;
+    List<AttachedCustomField> attachedCustomFields;
 
     @JsonProperty("customer_metadata")
     Map<String, Object> customerMetadata;

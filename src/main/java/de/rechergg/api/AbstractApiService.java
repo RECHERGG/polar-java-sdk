@@ -4,6 +4,8 @@ import lombok.extern.log4j.Log4j2;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.CompletableFuture;
 
 @Log4j2
@@ -68,5 +70,9 @@ public abstract class AbstractApiService extends ApiService {
             log.error("Failed to read response body", e);
         }
         return null;
+    }
+
+    public String encode(String value) {
+        return URLEncoder.encode(value, StandardCharsets.UTF_8);
     }
 }

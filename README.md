@@ -66,7 +66,7 @@ PolarClient client = Polar.sdk()
 ### Creating a Checkout Session
 
 ```java
-import de.rechergg.models.request.checkout.CheckoutCreateRequest;
+import de.rechergg.models.checkout.request.CheckoutCreateRequest;
 import java.util.concurrent.TimeUnit;
 
 var request = CheckoutCreateRequest.builder()
@@ -85,7 +85,7 @@ System.out.println("Status: " + response.status());
 ### Retrieving a Checkout Session
 
 ```java
-import de.rechergg.models.request.checkout.CheckoutGetRequest;
+import de.rechergg.models.checkout.request.CheckoutGetRequest;
 
 var request = CheckoutGetRequest.builder()
     .checkoutId("checkout-session-id")

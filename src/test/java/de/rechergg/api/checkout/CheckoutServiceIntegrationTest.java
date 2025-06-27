@@ -3,8 +3,9 @@ package de.rechergg.api.checkout;
 
 import de.rechergg.Polar;
 import de.rechergg.PolarClient;
-import de.rechergg.models.request.checkout.CheckoutCreateRequest;
-import de.rechergg.models.request.checkout.CheckoutGetRequest;
+import de.rechergg.models.checkout.request.CheckoutCreateRequest;
+import de.rechergg.models.checkout.request.CheckoutGetRequest;
+import de.rechergg.models.checkout.request.CheckoutListRequest;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 
@@ -64,7 +65,7 @@ public class CheckoutServiceIntegrationTest {
                 .productId("dc00d47e-386b-4a55-945d-e6f1b25c9d2d")
                 .build();
 
-        var created = client.coreApi()
+        var created = this.client.coreApi()
                 .checkoutService()
                 .createCheckoutSession(createRequest)
                 .get(10, TimeUnit.SECONDS);
@@ -75,7 +76,7 @@ public class CheckoutServiceIntegrationTest {
                 .checkoutId(created.id())
                 .build();
 
-        var retrieved = client.coreApi()
+        var retrieved = this.client.coreApi()
                 .checkoutService()
                 .getCheckoutSession(request)
                 .get(10, TimeUnit.SECONDS);
@@ -85,5 +86,22 @@ public class CheckoutServiceIntegrationTest {
         assertEquals(created.status(), retrieved.status(), "Status must match");
 
         log.info("Retrieved checkout: ID={}, Status={}", retrieved.id(), retrieved.status());
+    }
+
+    @Test
+    void testListCheckoutSessions_success() throws Exception {
+        var request = CheckoutListRequest.builder()
+                .limit(5)
+                .sort("-created_at")
+                .build();
+
+        var result = this.client.coreApi()
+                .checkoutService()
+                .listCheckoutSessions(request)
+                .get(10, TimeUnit.SECONDS);
+
+        assertNotNull(result.pagination().totalCount(), "Response must not be null");
+
+        log.info("List request returned successfully");
     }
 }
