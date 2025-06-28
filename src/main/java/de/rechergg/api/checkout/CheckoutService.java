@@ -6,6 +6,7 @@ import de.rechergg.models.checkout.CheckoutSession;
 import de.rechergg.models.checkout.request.CheckoutCreateRequest;
 import de.rechergg.models.checkout.request.CheckoutGetRequest;
 import de.rechergg.models.checkout.request.CheckoutListRequest;
+import de.rechergg.models.checkout.request.CheckoutUpdateRequest;
 import de.rechergg.models.checkout.response.CheckoutGetResponse;
 import de.rechergg.models.checkout.response.CheckoutListResponse;
 import de.rechergg.utils.JsonUtils;
@@ -98,6 +99,12 @@ public class CheckoutService extends AbstractApiService {
         return get(url.toString())
                 .thenCompose(this::handleResponse)
                 .thenApply(body -> JsonUtils.fromJson(body, CheckoutListResponse.class));
+    }
+
+    public CompletableFuture<CheckoutSession> updateCheckoutSession(String id, CheckoutUpdateRequest request) {
+        return patch("/v1/checkouts/" + id, request.toJson())
+                .thenCompose(this::handleResponse)
+                .thenApply(body -> JsonUtils.fromJson(body, CheckoutSession.class));
     }
 
 }

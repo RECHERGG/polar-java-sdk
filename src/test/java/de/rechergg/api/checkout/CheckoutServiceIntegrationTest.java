@@ -6,6 +6,7 @@ import de.rechergg.PolarClient;
 import de.rechergg.models.checkout.request.CheckoutCreateRequest;
 import de.rechergg.models.checkout.request.CheckoutGetRequest;
 import de.rechergg.models.checkout.request.CheckoutListRequest;
+import de.rechergg.models.checkout.request.CheckoutUpdateRequest;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 
@@ -103,5 +104,32 @@ public class CheckoutServiceIntegrationTest {
         assertNotNull(result.pagination().totalCount(), "Response must not be null");
 
         log.info("List request returned successfully");
+    }
+
+    @Test
+    void testUpdateCheckoutSession_success() throws Exception {
+        var createRequest = CheckoutCreateRequest.builder()
+                .productId("dc00d47e-386b-4a55-945d-e6f1b25c9d2d")
+                .build();
+
+        var created = this.client.coreApi()
+                .checkoutService()
+                .createCheckoutSession(createRequest)
+                .get(10, TimeUnit.SECONDS);
+
+        assertNotNull(created.id(), "Created checkout ID must not be null");
+
+        var updateRequest = CheckoutUpdateRequest.builder()
+                .productId("dc00d47e-386b-4a55-945d-e6f1b25c9d2d")
+                .amount(1200)
+                .build();
+
+        var updated = this.client.coreApi()
+                .checkoutService()
+                .updateCheckoutSession(created.id(), updateRequest)
+                .get(10, TimeUnit.SECONDS);
+
+        assertNotNull(updated.id(), "Updated checkout ID must not be null");
+        log.info("Updated checkout session: ID={}, Status={}", updated.id(), updated.status());
     }
 }
