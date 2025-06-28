@@ -25,6 +25,11 @@ public abstract class AbstractApiService extends ApiService {
     }
 
     @Override
+    protected CompletableFuture<Response> patch(String endpoint, String jsonBody) {
+        return this.executor.patchAsync(baseUrl + endpoint, jsonBody);
+    }
+
+    @Override
     protected CompletableFuture<Response> get(String endpoint) {
         return this.executor.getAsync(baseUrl + endpoint);
     }

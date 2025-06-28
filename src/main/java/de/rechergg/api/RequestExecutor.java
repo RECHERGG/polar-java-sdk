@@ -8,5 +8,7 @@ public interface RequestExecutor {
 
     CompletableFuture<Response> postAsync(String url, String jsonBody);
 
+    CompletableFuture<Response> patchAsync(String url, String jsonBody);
+
     CompletableFuture<Response> getAsync(String url);
 }
