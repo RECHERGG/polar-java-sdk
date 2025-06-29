@@ -2,6 +2,9 @@
 
 A community-driven Java SDK for integrating with the [Polar.sh](https://polar.sh) API. This SDK provides developers with a convenient and type-safe way to interact with Polar.sh services for digital product sales and subscription management.
 
+> [!CAUTION]
+> ### This Project is currently under development.
+
 ## 🚀 Features
 
 - **Complete API Coverage**: Supports all major Polar.sh API endpoints
