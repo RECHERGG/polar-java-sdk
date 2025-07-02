@@ -28,5 +28,5 @@ public class CustomField {
     @JsonProperty("organization_id")
     String organizationId;
 
-    Map<String, Object> properties;
+    CustomFieldProperties properties;
 }
