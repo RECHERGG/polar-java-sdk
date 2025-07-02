@@ -7,6 +7,7 @@ import de.rechergg.models.checkout.request.CheckoutCreateRequest;
 import de.rechergg.models.checkout.request.CheckoutGetRequest;
 import de.rechergg.models.checkout.request.CheckoutListRequest;
 import de.rechergg.models.checkout.request.CheckoutUpdateRequest;
+import de.rechergg.models.checkout.response.CheckoutGetFromClientResponse;
 import de.rechergg.models.checkout.response.CheckoutGetResponse;
 import de.rechergg.models.checkout.response.CheckoutListResponse;
 import de.rechergg.utils.JsonUtils;
@@ -105,6 +106,16 @@ public class CheckoutService extends AbstractApiService {
         return patch("/v1/checkouts/" + id, request.toJson())
                 .thenCompose(this::handleResponse)
                 .thenApply(body -> JsonUtils.fromJson(body, CheckoutSession.class));
+    }
+
+    /**
+     * Get a checkout session by client secret.
+     * @param secret The client secret of the checkout session.
+     */
+    public CompletableFuture<CheckoutGetFromClientResponse> getCheckoutSessionByClientSecret(String secret) {
+        return get("/v1/checkouts/client/" + secret)
+                .thenCompose(this::handleResponse)
+                .thenApply(body -> JsonUtils.fromJson(body, CheckoutGetFromClientResponse.class));
     }
 
 }
