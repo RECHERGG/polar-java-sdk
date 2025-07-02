@@ -125,7 +125,10 @@ public class CheckoutSession {
     Integer subTotalAmount;
 
     @JsonProperty("customer_billing_address_fields")
-    Map<String, Boolean> customerBillingAddressFields;
+    CustomerBillingAddress customerBillingAddressFields;
+
+    @JsonProperty("billing_address_fields")
+    Map<String, String> billingAddressFields;
 
     Map<String, Object> metadata;
 

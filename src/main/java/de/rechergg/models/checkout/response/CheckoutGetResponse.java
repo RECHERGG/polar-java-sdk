@@ -130,7 +130,10 @@ public class CheckoutGetResponse {
     Integer subTotalAmount;
 
     @JsonProperty("customer_billing_address_fields")
-    Map<String, Boolean> customerBillingAddressFields;
+    CustomerBillingAddress customerBillingAddressFields;
+
+    @JsonProperty("billing_address_fields")
+    Map<String, String> billingAddressFields;
 
     @JsonProperty("metadata")
     Map<String, Object> metadata;
