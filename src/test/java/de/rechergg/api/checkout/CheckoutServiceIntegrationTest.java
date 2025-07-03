@@ -3,11 +3,9 @@ package de.rechergg.api.checkout;
 
 import de.rechergg.Polar;
 import de.rechergg.PolarClient;
-import de.rechergg.models.checkout.request.CheckoutCreateRequest;
-import de.rechergg.models.checkout.request.CheckoutGetRequest;
-import de.rechergg.models.checkout.request.CheckoutListRequest;
-import de.rechergg.models.checkout.request.CheckoutUpdateRequest;
+import de.rechergg.models.checkout.request.*;
 import lombok.extern.log4j.Log4j2;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -25,6 +23,7 @@ public class CheckoutServiceIntegrationTest {
             .build();
 
     @Test
+    @Order(1)
     void testCreateCheckoutSession_success() throws Exception {
         var request = CheckoutCreateRequest.builder()
                 .productId("dc00d47e-386b-4a55-945d-e6f1b25c9d2d")
@@ -44,6 +43,7 @@ public class CheckoutServiceIntegrationTest {
     }
 
     @Test
+    @Order(2)
     void testCreateCheckoutSession_invalidProduct_shouldFail() {
         var request = CheckoutCreateRequest.builder()
                 .productId("invalid-product-id")
@@ -60,6 +60,7 @@ public class CheckoutServiceIntegrationTest {
     }
 
     @Test
+    @Order(3)
     void testGetCheckoutSession_success() throws Exception {
         // Erstelle eine neue Checkout-Session
         var createRequest = CheckoutCreateRequest.builder()
@@ -90,6 +91,7 @@ public class CheckoutServiceIntegrationTest {
     }
 
     @Test
+    @Order(4)
     void testListCheckoutSessions_success() throws Exception {
         var request = CheckoutListRequest.builder()
                 .limit(5)
@@ -107,6 +109,7 @@ public class CheckoutServiceIntegrationTest {
     }
 
     @Test
+    @Order(5)
     void testUpdateCheckoutSession_success() throws Exception {
         var createRequest = CheckoutCreateRequest.builder()
                 .productId("dc00d47e-386b-4a55-945d-e6f1b25c9d2d")
@@ -134,6 +137,7 @@ public class CheckoutServiceIntegrationTest {
     }
 
     @Test
+    @Order(6)
     void testGetCheckoutSessionFromClient_success() throws Exception {
         var createRequest = CheckoutCreateRequest.builder()
                 .productId("dc00d47e-386b-4a55-945d-e6f1b25c9d2d")
@@ -148,6 +152,35 @@ public class CheckoutServiceIntegrationTest {
                 .checkoutService()
                 .getCheckoutSessionByClientSecret(created.clientSecret())
                 .get(10, TimeUnit.SECONDS);
+        assertNotNull(session.id(), "Session ID must not be null");
+        log.info(session);
+    }
+
+    @Test
+    @Order(7)
+    void testUpdateCheckoutSessionFromClient_success() throws Exception {
+        var createRequest = CheckoutCreateRequest.builder()
+                .productId("dc00d47e-386b-4a55-945d-e6f1b25c9d2d")
+                .build();
+
+        var created = this.client.coreApi()
+                .checkoutService()
+                .createCheckoutSession(createRequest)
+                .get(10, TimeUnit.SECONDS);
+
+        var request = CheckoutUpdateByClientSecretRequest.builder()
+                .productId("dc00d47e-386b-4a55-945d-e6f1b25c9d2d")
+                .amount(1200)
+                .build();
+
+        var session = this.client.coreApi()
+                .checkoutService()
+                .updateCheckoutSessionFromClientSecret(
+                        created.clientSecret(),
+                        request
+                )
+                .get(10, TimeUnit.SECONDS);
+
         assertNotNull(session.id(), "Session ID must not be null");
         log.info(session);
     }

@@ -3,10 +3,7 @@ package de.rechergg.api.checkout;
 import de.rechergg.api.AbstractApiService;
 import de.rechergg.api.OkHttpRequestExecutor;
 import de.rechergg.models.checkout.CheckoutSession;
-import de.rechergg.models.checkout.request.CheckoutCreateRequest;
-import de.rechergg.models.checkout.request.CheckoutGetRequest;
-import de.rechergg.models.checkout.request.CheckoutListRequest;
-import de.rechergg.models.checkout.request.CheckoutUpdateRequest;
+import de.rechergg.models.checkout.request.*;
 import de.rechergg.models.checkout.response.CheckoutGetFromClientResponse;
 import de.rechergg.models.checkout.response.CheckoutGetResponse;
 import de.rechergg.models.checkout.response.CheckoutListResponse;
@@ -114,6 +111,17 @@ public class CheckoutService extends AbstractApiService {
      */
     public CompletableFuture<CheckoutGetFromClientResponse> getCheckoutSessionByClientSecret(String secret) {
         return get("/v1/checkouts/client/" + secret)
+                .thenCompose(this::handleResponse)
+                .thenApply(body -> JsonUtils.fromJson(body, CheckoutGetFromClientResponse.class));
+    }
+
+    /**
+     * Updates a checkout session using the client secret.
+     * @param secret The client secret of the checkout session.
+     * @param request The request containing the updated details.
+     */
+    public CompletableFuture<CheckoutGetFromClientResponse> updateCheckoutSessionFromClientSecret(String secret, CheckoutUpdateByClientSecretRequest request) {
+        return patch("/v1/checkouts/client/" + secret, request.toJson())
                 .thenCompose(this::handleResponse)
                 .thenApply(body -> JsonUtils.fromJson(body, CheckoutGetFromClientResponse.class));
     }
