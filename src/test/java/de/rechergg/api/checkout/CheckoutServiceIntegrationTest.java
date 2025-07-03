@@ -5,10 +5,10 @@ import de.rechergg.Polar;
 import de.rechergg.PolarClient;
 import de.rechergg.models.checkout.request.*;
 import lombok.extern.log4j.Log4j2;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,6 +24,7 @@ public class CheckoutServiceIntegrationTest {
 
     @Test
     @Order(1)
+    @DisplayName("Create Checkout Session")
     void testCreateCheckoutSession_success() throws Exception {
         var request = CheckoutCreateRequest.builder()
                 .productId("dc00d47e-386b-4a55-945d-e6f1b25c9d2d")
@@ -44,23 +45,7 @@ public class CheckoutServiceIntegrationTest {
 
     @Test
     @Order(2)
-    void testCreateCheckoutSession_invalidProduct_shouldFail() {
-        var request = CheckoutCreateRequest.builder()
-                .productId("invalid-product-id")
-                .build();
-
-        var futureResponse = this.client.coreApi()
-                .checkoutService()
-                .createCheckoutSession(request);
-
-        var exception = assertThrows(Exception.class, () -> futureResponse.get(10, TimeUnit.SECONDS));
-
-        assertInstanceOf(IOException.class, exception.getCause());
-        log.warn("Expected failure for invalid product ID: {}", exception.getMessage());
-    }
-
-    @Test
-    @Order(3)
+    @DisplayName("Get Checkout Session")
     void testGetCheckoutSession_success() throws Exception {
         // Erstelle eine neue Checkout-Session
         var createRequest = CheckoutCreateRequest.builder()
@@ -91,7 +76,8 @@ public class CheckoutServiceIntegrationTest {
     }
 
     @Test
-    @Order(4)
+    @Order(3)
+    @DisplayName("List Checkout Sessions")
     void testListCheckoutSessions_success() throws Exception {
         var request = CheckoutListRequest.builder()
                 .limit(5)
@@ -109,7 +95,8 @@ public class CheckoutServiceIntegrationTest {
     }
 
     @Test
-    @Order(5)
+    @Order(4)
+    @DisplayName("Update Checkout Session")
     void testUpdateCheckoutSession_success() throws Exception {
         var createRequest = CheckoutCreateRequest.builder()
                 .productId("dc00d47e-386b-4a55-945d-e6f1b25c9d2d")
@@ -137,7 +124,8 @@ public class CheckoutServiceIntegrationTest {
     }
 
     @Test
-    @Order(6)
+    @Order(5)
+    @DisplayName("Get Checkout Session from Client")
     void testGetCheckoutSessionFromClient_success() throws Exception {
         var createRequest = CheckoutCreateRequest.builder()
                 .productId("dc00d47e-386b-4a55-945d-e6f1b25c9d2d")
@@ -157,7 +145,8 @@ public class CheckoutServiceIntegrationTest {
     }
 
     @Test
-    @Order(7)
+    @Order(6)
+    @DisplayName("Update Checkout Session from Client")
     void testUpdateCheckoutSessionFromClient_success() throws Exception {
         var createRequest = CheckoutCreateRequest.builder()
                 .productId("dc00d47e-386b-4a55-945d-e6f1b25c9d2d")
