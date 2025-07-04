@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CheckoutServiceIntegrationTest {
 
     private final static String POLAR_ACCESS_TOKEN = System.getenv("POLAR_ACCESS_TOKEN");
+    private final static String POLAR_PRODUCT_ID = "dc00d47e-386b-4a55-945d-e6f1b25c9d2d";
     private final PolarClient client = Polar.sdk()
             .accessToken(POLAR_ACCESS_TOKEN)
             .useSandbox(true)
@@ -27,7 +28,7 @@ public class CheckoutServiceIntegrationTest {
     @DisplayName("Create Checkout Session")
     void testCreateCheckoutSession_success() throws Exception {
         var request = CheckoutCreateRequest.builder()
-                .productId("dc00d47e-386b-4a55-945d-e6f1b25c9d2d")
+                .productId(POLAR_PRODUCT_ID)
                 .build();
 
         var response = this.client.coreApi()
@@ -49,7 +50,7 @@ public class CheckoutServiceIntegrationTest {
     void testGetCheckoutSession_success() throws Exception {
         // Erstelle eine neue Checkout-Session
         var createRequest = CheckoutCreateRequest.builder()
-                .productId("dc00d47e-386b-4a55-945d-e6f1b25c9d2d")
+                .productId(POLAR_PRODUCT_ID)
                 .build();
 
         var created = this.client.coreApi()
@@ -99,7 +100,7 @@ public class CheckoutServiceIntegrationTest {
     @DisplayName("Update Checkout Session")
     void testUpdateCheckoutSession_success() throws Exception {
         var createRequest = CheckoutCreateRequest.builder()
-                .productId("dc00d47e-386b-4a55-945d-e6f1b25c9d2d")
+                .productId(POLAR_PRODUCT_ID)
                 .build();
 
         var created = this.client.coreApi()
@@ -110,7 +111,7 @@ public class CheckoutServiceIntegrationTest {
         assertNotNull(created.id(), "Created checkout ID must not be null");
 
         var updateRequest = CheckoutUpdateRequest.builder()
-                .productId("dc00d47e-386b-4a55-945d-e6f1b25c9d2d")
+                .productId(POLAR_PRODUCT_ID)
                 .amount(1200)
                 .build();
 
@@ -128,7 +129,7 @@ public class CheckoutServiceIntegrationTest {
     @DisplayName("Get Checkout Session from Client")
     void testGetCheckoutSessionFromClient_success() throws Exception {
         var createRequest = CheckoutCreateRequest.builder()
-                .productId("dc00d47e-386b-4a55-945d-e6f1b25c9d2d")
+                .productId(POLAR_PRODUCT_ID)
                 .build();
 
         var created = this.client.coreApi()
@@ -149,7 +150,7 @@ public class CheckoutServiceIntegrationTest {
     @DisplayName("Update Checkout Session from Client")
     void testUpdateCheckoutSessionFromClient_success() throws Exception {
         var createRequest = CheckoutCreateRequest.builder()
-                .productId("dc00d47e-386b-4a55-945d-e6f1b25c9d2d")
+                .productId(POLAR_PRODUCT_ID)
                 .build();
 
         var created = this.client.coreApi()
@@ -158,7 +159,7 @@ public class CheckoutServiceIntegrationTest {
                 .get(10, TimeUnit.SECONDS);
 
         var request = CheckoutUpdateByClientSecretRequest.builder()
-                .productId("dc00d47e-386b-4a55-945d-e6f1b25c9d2d")
+                .productId(POLAR_PRODUCT_ID)
                 .amount(1200)
                 .build();
 
