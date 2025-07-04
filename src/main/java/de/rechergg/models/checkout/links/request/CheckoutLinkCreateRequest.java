@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Model for creating a Checkout Link via Polar API.
+ * Request Model for creating a Checkout Link via Polar API.
  * https://docs.polar.sh/api-reference/checkout-links/create
  */
 @Value
