@@ -11,6 +11,12 @@ import lombok.extern.jackson.Jacksonized;
 
 import java.util.Map;
 
+
+/**
+ * Model for updating a Checkout via Polar API using the client secret.
+ * This class encapsulates the parameters needed to update an existing checkout session.
+ * https://docs.polar.sh/api-reference/checkouts/update-session
+ */
 @Value
 @Builder
 @Jacksonized
