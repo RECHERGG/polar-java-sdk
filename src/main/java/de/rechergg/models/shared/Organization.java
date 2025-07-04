@@ -44,6 +44,9 @@ public class Organization {
     @JsonProperty("subscription_settings")
     SubscriptionSettings subscriptionSettings;
 
+    @JsonProperty("notification_settings")
+    NotificationSettings notificationSettings;
+
     String bio;
 
     String company;
