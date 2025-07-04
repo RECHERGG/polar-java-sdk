@@ -31,7 +31,7 @@ public class CheckoutGetResponse {
     Map<String, Object> customFieldData;
 
     @JsonProperty("payment_processor")
-    String paymentProcessor;
+    PaymentProcessor paymentProcessor;
 
     @JsonProperty("status")
     String status;

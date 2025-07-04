@@ -3,6 +3,7 @@ package de.rechergg.models.checkout.links.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import de.rechergg.models.shared.PaymentProcessor;
 import lombok.Builder;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
@@ -21,7 +22,7 @@ import java.util.Map;
 public class CheckoutLinkCreateRequest {
 
     @JsonProperty("payment_processor")
-    String paymentProcessor;
+    PaymentProcessor paymentProcessor;
 
     @JsonProperty("product_price_id")
     String productPriceId;

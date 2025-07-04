@@ -30,7 +30,7 @@ public class CheckoutSession {
     Map<String, Object> customFieldData;
 
     @JsonProperty("payment_processor")
-    String paymentProcessor;
+    PaymentProcessor paymentProcessor;
 
     String status;
 
