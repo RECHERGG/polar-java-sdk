@@ -1,6 +1,6 @@
 [versions]
 slf4j = "2.0.17"
-log4j = "2.25.0"
+log4j = "2.25.1"
 
 annotations = "26.0.2"
 lombok = "1.18.38"
