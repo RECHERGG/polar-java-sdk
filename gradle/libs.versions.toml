@@ -2,7 +2,7 @@
 slf4j = "2.0.17"
 log4j = "2.25.0"
 
-annotations = "26.0.2"
+annotations = "26.0.2-1"
 lombok = "1.18.38"
 
 okhttp = "4.12.0"
